@@ -1,11 +1,24 @@
 from typing import List, Set
 from models.trie import TrieNode
 from models.puzzle_solution import PuzzleSolution
+from services.prompts import words_prompt_template, hints_prompt_template
+from services.google_ai_service import query_model as google_query_model
 
-def solve_puzzle(puzzle: List[List[str]], root: TrieNode, hints: bool) -> str:
-  valid_words: Set[str] = find_puzzle_words(puzzle, root)
+def solve_puzzle(puzzle: List[List[str]], theme: str, root: TrieNode, hints: bool) -> str:
+  potential_words: Set[str] = find_puzzle_words(puzzle, root)
 
-  return PuzzleSolution(words=valid_words)
+  strands_prompt = words_prompt_template(potential_words, theme, 8)
+  strands_guess = google_query_model(strands_prompt)
+
+  hints_output = ""
+
+  if hints:
+    hints_prompt = hints_prompt_template(strands_guess, theme)
+    hints_output = google_query_model(hints_prompt)
+
+  hints_output_list = [hint for hint in hints_output.split('\n') if hint]
+
+  return PuzzleSolution(words=strands_guess.split(), hints=hints_output_list)
 
 def find_puzzle_words(puzzle: List[List[str]], root: TrieNode) -> Set[str]:
   rows: int = len(puzzle)
