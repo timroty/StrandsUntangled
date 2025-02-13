@@ -35,50 +35,50 @@ export default function Home() {
     <div className="">
       <div className="p-8">
         <div className="font-serif text-3xl font-black">
-          Strands <span className="italic font-extralight">Untangled</span>
+          Strands <span className="font-extralight italic">Untangled</span>
         </div>
       </div>
-      <div className="w-full border-t border-gray-300 my-2"></div>
-      <div className="flex justify-end mr-8">
-        <div className="font-black text-xl">?</div>
+      <div className="my-2 w-full border-t border-gray-300"></div>
+      <div className="mr-8 flex justify-end">
+        <div className="text-xl font-black">?</div>
       </div>
-      <div className="w-full border-t border-gray-300 my-2"></div>
+      <div className="my-2 w-full border-t border-gray-300"></div>
       <div className="p-4">
-        <div className="flex flex-col md:flex-row justify-center items-center">
-          <div className="flex-1 flex justify-center md:justify-end md:mr-16">
-            <div className="flex flex-col min-w-96">
-              <div className="border border-gray-300 rounded-lg overflow-hidden items-center max-w-96">
-                <div className="bg-sky-200 h-1/3 font-bold flex justify-center items-center w-full">
+        <div className="flex flex-col items-center justify-center md:flex-row">
+          <div className="flex flex-1 justify-center md:mr-16 md:justify-end">
+            <div className="flex min-w-96 flex-col">
+              <div className="max-w-96 items-center overflow-hidden rounded-lg border border-gray-300">
+                <div className="flex h-1/3 w-full items-center justify-center bg-sky-200 font-bold">
                   TODAY'S THEME
                 </div>
-                <div className="p-2 flex justify-center items-center w-full font-bold text-2xl">
+                <div className="flex w-full items-center justify-center p-2 text-2xl font-bold">
                   <span>"</span>
                   <GrowingInput ref={themeInputRef} />
                   <span>"</span>
                 </div>
               </div>
-              <div className="flex flex-col items-center max-w-96">
+              <div className="flex max-w-96 flex-col items-center">
                 <div className="flex items-center">
                   <input
                     placeholder="0"
                     maxLength={1}
-                    className="rounded focus:outline-none w-4 font-bold"
+                    className="w-4 rounded font-bold focus:outline-none"
                     value={totalWords}
                     onChange={(e) => setTotalWords(e.target.value)}
                   />
                   <span className="">total theme words.</span>
                 </div>
               </div>
-              <div className="flex space-x-2 mt-6 justify-center max-w-96">
+              <div className="mt-6 flex max-w-96 justify-center space-x-2">
                 <button
                   onClick={() => handleSubmit(false)}
-                  className="border-2 border-gray-400 text-gray-500 rounded-full px-8 py-2 hover:bg-black hover:text-white hover:border-black"
+                  className="rounded-full border-2 border-gray-400 px-8 py-2 text-gray-500 hover:border-black hover:bg-black hover:text-white"
                 >
                   Solve
                 </button>
                 <button
                   onClick={() => handleSubmit(true)}
-                  className="border-2 border-gray-400 text-gray-500 rounded-full px-8 py-2 hover:bg-black hover:text-white hover:border-black"
+                  className="rounded-full border-2 border-gray-400 px-8 py-2 text-gray-500 hover:border-black hover:bg-black hover:text-white"
                 >
                   Hints
                 </button>
@@ -86,11 +86,11 @@ export default function Home() {
             </div>
           </div>
           <div className="flex-1 md:ml-16">
-            <div className="grid grid-cols-6 grid-rows-8 w-80 h-96">
+            <div className="grid h-96 w-80 grid-cols-6 grid-rows-8">
               {Array.from({ length: 48 }).map((_, index) => (
                 <input
                   key={index}
-                  className="rounded focus:outline-none w-8 text-center text-2xl"
+                  className="w-8 rounded text-center text-2xl focus:outline-none"
                   placeholder={`_`}
                   maxLength={1}
                   value={puzzleCharacters[index]}
