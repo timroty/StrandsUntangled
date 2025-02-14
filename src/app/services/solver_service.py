@@ -4,10 +4,12 @@ from models.puzzle_solution import PuzzleSolution
 from services.prompts import words_prompt_template, hints_prompt_template
 from services.google_ai_service import query_model as google_query_model
 
-def solve_puzzle(puzzle: List[List[str]], theme: str, root: TrieNode, hints: bool) -> str:
+def solve_puzzle(puzzle: List[str], theme: str, words: int, root: TrieNode, hints: bool) -> str:
+  puzzle = [letter.lower() for letter in puzzle]
+  puzzle = [list(puzzle[i:i+6]) for i in range(0, 48, 6)]
   potential_words: Set[str] = find_puzzle_words(puzzle, root)
 
-  strands_prompt = words_prompt_template(potential_words, theme, 8)
+  strands_prompt = words_prompt_template(potential_words, theme, words)
   strands_guess = google_query_model(strands_prompt)
 
   hints_output = ""

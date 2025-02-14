@@ -2,10 +2,13 @@
 
 import React, { useState, useRef } from "react";
 import GrowingInput from "@/components/growing-input";
+import { RequestSolution } from "@/services/api";
 
 export default function Home() {
   const [puzzleCharacters, setPuzzleCharacters] = useState(Array(48).fill(""));
   const [totalWords, setTotalWords] = useState("");
+  const [solutionResponse, setSolutionResponse] =
+    useState<SolutionResponse | null>(null);
   const themeInputRef: any = useRef(null);
 
   const handleInputChange = (index: number, value: any) => {
@@ -17,15 +20,16 @@ export default function Home() {
   const handleSubmit = async (hints: boolean) => {
     const themeValue = themeInputRef.current ? themeInputRef.current.value : "";
 
-    const data = {
+    const data: SolutionRequest = {
       puzzle: puzzleCharacters,
-      words: totalWords,
+      words: totalWords as unknown as number,
       theme: themeValue,
       hints,
     };
 
     try {
-      console.log("Response:", data);
+      const response = await RequestSolution(data);
+      setSolutionResponse(response);
     } catch (error) {
       console.error("Error:", error);
     }
@@ -90,7 +94,7 @@ export default function Home() {
               {Array.from({ length: 48 }).map((_, index) => (
                 <input
                   key={index}
-                  className="w-8 rounded text-center text-2xl focus:outline-none"
+                  className="w-8 rounded text-center text-2xl font-medium focus:outline-none"
                   placeholder={`_`}
                   maxLength={1}
                   value={puzzleCharacters[index]}
@@ -100,6 +104,43 @@ export default function Home() {
             </div>
           </div>
         </div>
+      </div>
+      <div>
+        {solutionResponse && (
+          <div className="mx-auto max-w-7xl px-4 lg:px-0">
+            {solutionResponse.hints && solutionResponse.hints.length > 0 && (
+              <div>
+                <h2 className="text-2xl font-bold">Hints</h2>
+                <div className="mt-4">
+                  {solutionResponse.hints.map((hint, index) => (
+                    <div key={index} className="relative my-1 ml-1 py-2 pl-1">
+                      <div
+                        className="absolute inset-0 cursor-pointer backdrop-blur-sm"
+                        onClick={(e) =>
+                          (e.currentTarget.style.display = "none")
+                        }
+                      ></div>
+                      <pre className="overflow-x-scroll rounded">{hint}</pre>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+            <h2 className="mt-4 text-2xl font-bold">Strand Words</h2>
+
+            <div className="my-6 ml-6 grid grid-cols-2 gap-4 md:grid-cols-3">
+              {solutionResponse.words.map((word, index) => (
+                <div key={index} className="relative my-1 ml-1 pl-1">
+                  <div
+                    className="absolute inset-0 cursor-pointer backdrop-blur-sm"
+                    onClick={(e) => (e.currentTarget.style.display = "none")}
+                  ></div>
+                  {word}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
