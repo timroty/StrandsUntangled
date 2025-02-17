@@ -20,10 +20,19 @@ On Windows:
 ```sh
 .\venv\Scripts\activate
 ```
+
 ### 3. Install Dependencies
 
 ```sh
 pip install -r requirements.txt
+```
+
+### 4. Create the Environment File
+
+Create a file in the root of the `app` folder called `.env` with the following data.
+
+```
+GOOGLE_API_KEY={YourAPIKey}
 ```
 
 ## Running the Application

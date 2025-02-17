@@ -127,7 +127,6 @@ export default function Home() {
               </div>
             )}
             <h2 className="mt-4 text-2xl font-bold">Strand Words</h2>
-
             <div className="my-6 ml-6 grid grid-cols-2 gap-4 md:grid-cols-3">
               {solutionResponse.words.map((word, index) => (
                 <div key={index} className="relative my-1 ml-1 pl-1">
